@@ -11,7 +11,7 @@ try {
     logger.info("Database connected successfully");
 } catch (error) {
     logger.error(`Error connecting to the database: ${error}`);
-    process.exit(1); // Exit if database connection fails
+    process.exit(1); // Exit with error
 }
 
 // Start the Express server
@@ -23,7 +23,7 @@ try {
     });
 } catch (error) {
     logger.error(`Error starting server: ${error}`);
-    process.exit(1); // Exit if server fails to start
+    process.exit(1); // Exit with error
 }
 
 // Handle Ctrl+C on Windows PowerShell
@@ -50,29 +50,29 @@ if (process.platform === "win32") {
 
 // Graceful shutdown
 const shutdown = async () => {
-    console.log("\nShutting down gracefully...");
+    logger.info("\nShutting down gracefully...");
 
     try {
         // 1. Close database connection
         if (await DatabaseConfig.isConnected()) {
             await DatabaseConfig.disconnect();
-            console.log("Database connection closed");
+            logger.info("Database connection closed");
         }
 
         // 2. Close server
         server.close(() => {
-            console.log("Server closed");
-            process.exit(0);
+            logger.info("Server closed");
+            process.exit(0); // Exit with success
         });
 
         // 3. Handle any remaining requests
         setTimeout(() => {
-            console.error("Forcing shutdown after timeout");
-            process.exit(1);
+            logger.error("Forcing shutdown after timeout");
+            process.exit(1); // Exit with error
         }, 5000); // 5 seconds timeout
     } catch (err) {
-        console.error("Error closing server:", err);
-        process.exit(1);
+        logger.error("Error closing server:", err);
+        process.exit(1); // Exit with error
     }
 };
 

@@ -290,7 +290,7 @@ This will execute all pending migrations and seed the database with initial data
 
 ### 🐳 Run Using Docker
 
-To build and run all services (PostgreSQL and NodeJs app):
+To build and run all services (PostgreSQL and TypeScript app):
 
 ```bash
 make docker-up

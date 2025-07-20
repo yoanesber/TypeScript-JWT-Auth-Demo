@@ -1,8 +1,6 @@
 # JWT Auth API Demo
 
-This project is a **Node.js RESTful API** built with **Express** and **TypeScript**, implementing **JWT-based authentication** for secure access. It follows a modular structure and includes various middleware for improving **security**, **performance**, and **developer experience**.
-
-The project also supports **database migration and seeding** using Sequelize, ensuring easy setup and reproducibility of the database schema across environments.
+This project is a **TypeScript-based RESTful API** using **Express** and **JWT authentication**. It has a **modular structure**, **middleware** for security and performance, and uses **Sequelize** for database migration and seeding.
 
 ---
 

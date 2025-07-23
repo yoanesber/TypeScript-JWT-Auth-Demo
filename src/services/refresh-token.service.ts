@@ -77,6 +77,15 @@ class RefreshTokenService {
                 throw error; // Re-throw known AppErrors
             }
             
+            if (error instanceof ValidationError) {
+                const messages = error.errors.map((e: ValidationErrorItem) => e.message);
+                throw AppError.BadRequest("Validation errors occurred", messages);
+            }
+
+            if (error instanceof DatabaseError) {
+                throw AppError.InternalServerError("Database error", `An error occurred while creating or updating the refresh token due to: ${error.message}`);
+            }
+
             throw AppError.InternalServerError("Failed to verify refresh token", error);
         }
     }

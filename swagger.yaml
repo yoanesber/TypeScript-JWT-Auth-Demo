@@ -1,0 +1,681 @@
+openapi: 3.0.0
+info:
+  title: Authentication API with JWT
+  version: 1.0.0
+  description: API for user authentication using JWT tokens. This API allows users to log in and obtain access and refresh tokens, as well as refresh their access tokens using a valid refresh token.
+  contact:
+    name: yoanes berchmans
+    email: yoanes.berchmans89@gmail.com
+
+servers:
+  - url: http://localhost:4000
+    description: Local server
+  # - url: https://your-production-url.com
+  #   description: Production server
+
+tags:
+  - name: Auth
+    description: Authentication endpoints (login & refresh token)
+  - name: Notes
+    description: Notes endpoints (CRUD operations)
+
+paths:
+  /auth/login:
+    post:
+      operationId: login
+      summary: Login user
+      description: Authenticate user and return access and refresh tokens.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: user1
+                password:
+                  type: string
+                  example: P@ssw0rd
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login successful
+                  error:
+                    type: string
+                    example: null
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        example: your-access-token-here
+                      refreshToken:
+                        type: string
+                        example: your-refresh-token-here
+                      expirationAt:
+                        type: string
+                        format: date-time
+                        example: '2025-07-23T15:35:31.000Z'
+                      tokenType:
+                        type: string
+                        example: Bearer
+                  path:
+                    type: string
+                    example: /auth/login
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '400':
+          description: Bad request - Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validation error
+                  error:
+                    type: object
+                    properties:
+                      password:
+                        type: array
+                        items:
+                          type: string
+                          example: Password must be at least 6 characters long
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /auth/login
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:36:30.849Z'
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid username or password
+                  error:
+                    type: string
+                    example: Password does not match
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /auth/login
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:36:30.849Z'
+        '403':
+          description: Forbidden - Account issues
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Account is disabled
+                  error:
+                    type: string
+                    example: User account is not enabled. Please contact support.
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /auth/login
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:36:30.849Z'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: An unexpected error occurred during login
+                  error:
+                    type: string
+                    example: An error occurred while processing the login request due to: ...
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /auth/login
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:36:30.849Z'
+
+  /auth/refresh-token:
+    post:
+      operationId: refreshToken
+      summary: Refresh JWT access token
+      description: Use a valid refresh token to obtain a new access token and refresh token.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+                  example: your-refresh-token-here
+              required:
+                - refreshToken
+      responses:
+        '200':
+          description: Refresh token successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Refresh token successful
+                  error:
+                    type: string
+                    example: null
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        example: your-access-token-here
+                      refreshToken:
+                        type: string
+                        example: your-refresh-token-here
+                      expirationAt:
+                        type: string
+                        format: date-time
+                        example: '2025-07-23T15:35:31.000Z'
+                      tokenType:
+                        type: string
+                        example: Bearer
+                  path:
+                    type: string
+                    example: /auth/refresh-token
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '400':
+          description: Bad request - Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validation error
+                  error:
+                    type: object
+                    properties:
+                      refreshToken:
+                        type: array
+                        items:
+                          type: string
+                          example: Refresh token is required
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /auth/refresh-token
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Expired refresh token
+                  error:
+                    type: string
+                    example: Refresh token has expired
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /auth/refresh-token
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Database error
+                  error:
+                    type: string
+                    example: An error occurred while creating or updating the refresh token due to: sintaks masukan tidak valid untuk tipe uuid : « c2722a26-d983-4793-9284-a71a7945eac6a »
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /auth/refresh-token
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:36:30.849Z'
+  /api/notes:
+    get:
+      operationId: getAllNotes
+      summary: Get all notes
+      description: Fetch all notes with optional pagination, sorting, and filtering.
+      tags:
+        - Notes
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Page number for pagination
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          required: false
+          description: Number of notes per page
+          schema:
+            type: integer
+            default: 10
+        - name: sortBy
+          in: query
+          required: false
+          description: Field to sort by (e.g., createdAt, updatedAt)
+          schema:
+            type: string
+            default: createdAt
+        - name: sortOrder
+          in: query
+          required: false
+          description: Sort order (asc or desc)
+          schema:
+            type: string
+            default: desc
+      responses:
+        '200':
+          description: Notes fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Notes fetched successfully
+                  error:
+                    type: string
+                    example: null
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: uuid
+                          example: bffb7ddf-6bae-44c7-b912-e2cf7a3d78dd
+                        title:
+                          type: string
+                          example: Sample Note Title
+                        content:
+                          type: string
+                          example: This is a sample note content.
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: '2025-07-22T15:35:31.312Z'
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          example: '2025-07-22T15:35:31.312Z'
+                  path:
+                    type: string
+                    example: /api/notes?page=1&limit=10&sortBy=createdAt&sortOrder=desc
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '401':
+          description: Unauthorized - Missing or invalid Authorization header
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing or invalid Authorization header
+                  error:
+                    type: string
+                    example: Authorization header must start with 'Bearer '
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /api/notes?page=1&limit=2&sortBy=createdAt&sortOrder=desc
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Database error
+                  error:
+                    type: string
+                    example: An error occurred while fetching notes from the database due to: kolom Note.createdAt\"DESCENDING belum ada
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /api/notes?page=1&limit=2&sortBy=createdAt&sortOrder=descending
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+    post:
+      operationId: createNote
+      summary: Create a new note
+      description: Create a new note with title and content.
+      tags:
+        - Notes
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Sample Note Title
+                content:
+                  type: string
+                  example: This is a sample note content.
+              required:
+                - title
+                - content
+      responses:
+        '201':
+          description: Note created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Note created successfully
+                  error:
+                    type: string
+                    example: null
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: uuid
+                        example: bffb7ddf-6bae-44c7-b912-e2cf7a3d78dd
+                      title:
+                        type: string
+                        example: Sample Note Title
+                      content:
+                        type: string
+                        example: This is a sample note content.
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2025-07-22T15:35:31.312Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: '2025-07-22T15:35:31.312Z'
+        '400':
+          description: Bad request - Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validation error
+                  error:
+                    type: object
+                    properties:
+                      title:
+                        type: array
+                        items:
+                          type: string
+                          example: Title is required
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /api/notes
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '401':
+          description: Unauthorized - Missing or invalid Authorization header
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing or invalid Authorization header
+                  error:
+                    type: string
+                    example: Authorization header must start with 'Bearer '
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /api/notes
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+  /api/notes/{id}:
+    get:
+      operationId: getNoteById
+      summary: Get note by ID
+      description: Fetch a single note by its ID.
+      tags:
+        - Notes
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          description: UUID of the note to fetch
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Note fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Note fetched successfully
+                  error:
+                    type: string
+                    example: null
+                  data:
+                    type: object
+                    properties:
+                        id:
+                          type: uuid
+                          example: bffb7ddf-6bae-44c7-b912-e2cf7a3d78dd
+                        title:
+                          type: string
+                          example: Sample Note Title
+                        content:
+                          type: string
+                          example: This is a sample note content.
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: '2025-07-22T15:35:31.312Z'
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          example: '2025-07-22T15:35:31.312Z'
+                  path:
+                    type: string
+                    example: /api/notes/2410c061-b768-4710-b259-30034a8c43a9
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '400':
+          description: Bad Request - Invalid UUID format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid note ID format
+                  error:
+                    type: string
+                    example: Note ID must be a valid UUID
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /api/notes/123
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '401':
+          description: Unauthorized - Missing or invalid Authorization header
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing or invalid Authorization header
+                  error:
+                    type: string
+                    example: Authorization header must start with 'Bearer '
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /api/notes/2410c061-b768-4710-b259-30034a8c43a9
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+        '404':
+          description: Note not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Note not found
+                  error:
+                    type: string
+                    example: No note found with ID 2410c061-b768-4710-b259-30034a8c43a9
+                  data:
+                    type: object
+                    example: null
+                  path:
+                    type: string
+                    example: /api/notes/2410c061-b768-4710-b259-30034a8c43a9
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2025-07-22T15:35:31.312Z'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT Bearer token for authentication. Include the token in the Authorization header as "Bearer {your-token-here}". Fill in the <b>token only (without the "Bearer " prefix)</b> if you have a valid token.

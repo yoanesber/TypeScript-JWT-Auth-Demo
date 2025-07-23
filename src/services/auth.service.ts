@@ -47,13 +47,13 @@ class AuthService {
             if (!user.isEnabled) throw AppError.Forbidden("Account is disabled", "User account is not enabled. Please contact support.");
             if (!user.isAccountNonExpired) throw AppError.Forbidden("Account is expired", "User account is expired. Please contact support.");
             if (!user.isAccountNonLocked) throw AppError.Forbidden("Account is locked", "User account is locked. Please contact support.");
-            if (!user.isCredentialsNonExpired) throw AppError.Forbidden("Credentials are expired", "User credentials are expired. Please contact support.");
+            if (!user.isCredentialsNonExpired) throw AppError.Unauthorized("Credentials are expired", "User credentials are expired. Please contact support.");
             if (user.isDeleted) throw AppError.Forbidden("Account is deleted", "User account is deleted. Please contact support.");
 
             // Verify the password
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
-                throw AppError.Forbidden("Invalid username or password", "Password does not match");
+                throw AppError.Unauthorized("Invalid username or password", "Password does not match");
             }
 
             // JWT payload

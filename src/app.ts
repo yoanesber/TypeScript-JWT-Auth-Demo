@@ -2,6 +2,9 @@ import compression from 'compression';
 import express from 'express';
 import helmet from 'helmet';
 import requestId from 'express-request-id';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+
 
 // routes
 import authRoutes from './routes/auth.routes';
@@ -18,6 +21,7 @@ import validateContentType from './middlewares/validate-content-type.middleware'
 import { loginRateLimiter, generalRateLimiter } from './middlewares/rate-limiter.middleware';
 
 const app = express();
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 // 1. Logger middleware
 // This middleware is used to log HTTP requests and responses, which can be useful for debugging and monitoring purposes.
@@ -58,6 +62,7 @@ app.use(validateContentType('application/json'));
 // 9. Register all routes
 app.use('/auth', loginRateLimiter, authRoutes);
 app.use('/api/notes', generalRateLimiter, authenticateJWT, noteRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // 10. Handle not found routes
 // This middleware is used to handle requests to routes that do not exist in your application.

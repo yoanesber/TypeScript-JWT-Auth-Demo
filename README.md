@@ -815,7 +815,7 @@ GET http://localhost:4000/api/notes
 
 The API is documented using **Swagger (OpenAPI `3.0`)**. You can explore and test API endpoints directly from the browser using Swagger UI at:
 
-```http
+```
 http://localhost:4000/api-docs
 ```
 

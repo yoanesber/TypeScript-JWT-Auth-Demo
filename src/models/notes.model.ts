@@ -11,6 +11,11 @@ import {
     UpdatedAt,
 } from 'sequelize-typescript';
 
+/**
+ * Note model representing a note in the database.
+ * This model includes fields for title, content, and timestamps for creation, update, and deletion.
+ * It uses Sequelize decorators to define the schema and relationships.
+ */
 @Table({
     tableName: 'notes',
     timestamps: true,

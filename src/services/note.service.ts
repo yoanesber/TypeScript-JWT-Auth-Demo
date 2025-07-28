@@ -7,6 +7,12 @@ import { JwtPayload } from "../types/jwt-payload.interface";
 import { NoteRequest, NoteRequestSchema } from "../dtos/note-request.dto";
 import { NoteResponse } from "../dtos/note-response.dto";
 
+
+/**
+ * NoteService handles operations related to notes such as creating, retrieving, and managing notes.
+ * It validates requests, interacts with the database, and manages note data.
+ * It uses Sequelize for database operations.
+ */
 class NoteService {
     async createNote(authUser: JwtPayload, noteRequest: NoteRequest): Promise<NoteResponse> {
         // Validate the note request

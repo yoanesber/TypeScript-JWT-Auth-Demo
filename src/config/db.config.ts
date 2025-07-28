@@ -2,13 +2,19 @@ import 'dotenv/config';
 import { Sequelize } from 'sequelize-typescript';
 import { Dialect, Transaction } from 'sequelize';
 
-import logger from "../utils/logger.util";
+import Logger from "../utils/logger.util";
 import Note from '../models/notes.model';
 import RefreshToken from '../models/refresh-token.model';
 import Role from '../models/role.model';
 import User from '../models/user.model';
 import UserRole from '../models/user-role.model';
 
+/**
+ * Database configuration class.
+ * This class handles the connection to the database using Sequelize.
+ * It provides methods to connect, disconnect, and manage transactions.
+ * It also allows access to the Sequelize instance and checks the connection status.
+ */
 class DatabaseConfig {
     private sequelize: Sequelize;
     private env: string;
@@ -51,9 +57,9 @@ class DatabaseConfig {
         try {
             await this.sequelize.authenticate();
             this.connected = true;
-            logger.info(`Database connected (${this.env})`);
+            Logger.info(`Database connected (${this.env})`);
         } catch (error) {
-            logger.error(`Unable to connect to the database: ${error}`);
+            Logger.error(`Unable to connect to the database: ${error}`);
             this.connected = false;
             throw error; // Rethrow to handle it in the caller
         }
@@ -68,9 +74,9 @@ class DatabaseConfig {
             await this.sequelize.close();
             this.connected = false;
             this.sequelize = new Sequelize({} as any); // Reset the sequelize instance
-            logger.info('Database disconnected successfully');
+            Logger.info('Database disconnected successfully');
         } catch (error) {
-            logger.error(`Error disconnecting from the database: ${error}`);
+            Logger.error(`Error disconnecting from the database: ${error}`);
         }
     }
 

@@ -16,6 +16,12 @@ import {
 import User from './user.model';
 import UserRole from './user-role.model';
 
+
+/**
+ * Role model representing a user role in the database.
+ * This model includes fields for the role name, description, and timestamps for creation, update, and deletion.
+ * It uses Sequelize decorators to define the schema and relationships.
+ */
 @Table({
     tableName: 'roles',
     timestamps: true,

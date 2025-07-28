@@ -97,6 +97,10 @@ undo-seed:
 undo-seed-all:
 	npx sequelize-cli db:seed:undo:all
 
+# 📊 Start Prometheus monitoring
+monitor:
+	npm run monitor
+
 ## 📋 Show this help
 help:
 	@echo ""

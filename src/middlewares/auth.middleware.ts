@@ -4,6 +4,12 @@ import AppError from "../exceptions/app-error.exception";
 import JwtUtil from "../utils/jwt.util";
 import { JwtPayload } from "../types/jwt-payload.interface";
 
+/**
+ * Middleware to authenticate JWT tokens.
+ * It checks the Authorization header for a Bearer token,
+ * verifies the token, and attaches the decoded user information to the request object.
+ * If the token is invalid or expired, it throws an AppError.
+ */
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {

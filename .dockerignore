@@ -10,3 +10,4 @@ docker/
 .vscode/
 node_modules/
 *.log
+monitoring/prometheus/data/

@@ -5,6 +5,11 @@ import FormatResponse from "../utils/response.util";
 import { LoginRequestSchema } from "../dtos/login-request.dto";
 import { RefreshTokenRequestSchema } from "../dtos/refresh-token-request.dto";
 
+/**
+ * AuthController handles authentication-related requests.
+ * It provides methods for user login and token refresh.
+ * Each method validates the request data and interacts with the AuthService to perform the required operations.
+ */
 class AuthController {
     async login(req: Request, res: Response): Promise<void> {
         // Validate the request body against the LoginRequestSchema

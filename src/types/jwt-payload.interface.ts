@@ -1,3 +1,6 @@
+/**
+ * Interface representing the JWT payload structure.
+ */
 export interface JwtPayload {
     id: string;
     username: string;

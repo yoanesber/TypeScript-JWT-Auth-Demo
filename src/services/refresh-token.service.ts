@@ -5,6 +5,11 @@ import { Transaction } from "sequelize";
 import AppError from "../exceptions/app-error.exception";
 import RefreshToken from "../models/refresh-token.model";
 
+/**
+ * RefreshTokenService handles operations related to refresh tokens.
+ * It provides methods to create, update, and verify refresh tokens.
+ * It uses Sequelize for database operations.
+ */
 class RefreshTokenService {
     async createOrUpdateRefreshToken(userId: number, transaction?: Transaction): Promise<RefreshToken> {
         // Validate the userId

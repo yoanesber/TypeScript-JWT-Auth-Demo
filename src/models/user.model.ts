@@ -19,6 +19,12 @@ import {
 import Role from './role.model';
 import UserRole from './user-role.model';
 
+
+/**
+ * User model representing a user in the database.
+ * This model includes fields for username, password, email, and various account status flags.
+ * It uses Sequelize decorators to define the schema and relationships.
+ */
 @Table({
     tableName: 'users',
     timestamps: true,

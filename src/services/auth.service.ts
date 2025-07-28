@@ -13,6 +13,12 @@ import { LoginResponse } from "../dtos/login-response.dto";
 import { RefreshTokenRequest, RefreshTokenRequestSchema } from "../dtos/refresh-token-request.dto";
 import { RefreshTokenResponse } from "../dtos/refresh-token-response.dto";
 
+
+/**
+ * AuthService handles user authentication operations such as login and token refresh.
+ * It validates requests, interacts with the database, and manages JWT tokens.
+ * It uses bcrypt for password hashing and Sequelize for database operations.
+ */
 class AuthService {
     async login(loginRequest: LoginRequest): Promise<LoginResponse> {
         // Validate the login request

@@ -6,6 +6,12 @@ import type { StringValue } from "ms";
 
 import AppError from '../exceptions/app-error.exception';
 
+/**
+ * Utility class for handling JSON Web Tokens (JWT).
+ * This class provides methods to sign, verify, and extract claims from JWTs.
+ * It supports both symmetric (HS*) and asymmetric (RS*) algorithms.
+ * The configuration is loaded from environment variables.
+ */
 type Payload = {
     [key: string]: any
 };

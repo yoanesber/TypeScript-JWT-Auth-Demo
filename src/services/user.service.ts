@@ -3,6 +3,12 @@ import { ValidationError, ValidationErrorItem, DatabaseError } from 'sequelize';
 import AppError from "../exceptions/app-error.exception";
 import User from "../models/user.model";
 
+
+/**
+ * UserService handles operations related to user management.
+ * It provides methods to update user information such as last login time.
+ * It uses Sequelize for database operations.
+ */
 class UserService {
     async updateLastLogin(userId: number): Promise<boolean> {
         // Validate the userId

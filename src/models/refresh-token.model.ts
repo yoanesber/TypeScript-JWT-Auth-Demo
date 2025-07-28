@@ -10,6 +10,11 @@ import {
 
 import User from './user.model';
 
+/**
+ * RefreshToken model representing a refresh token in the database.
+ * This model includes fields for the token, user ID, and expiration date.
+ * It uses Sequelize decorators to define the schema and relationships.
+ */
 @Table({
     tableName: 'refresh_tokens',
     timestamps: false

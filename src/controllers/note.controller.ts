@@ -6,6 +6,11 @@ import NoteService from "../services/note.service";
 import { NoteRequestSchema } from "../dtos/note-request.dto";
 import { NoteResponse } from "../dtos/note-response.dto";
 
+/**
+ * NoteController handles note-related requests.
+ * It provides methods for creating, fetching, and managing notes.
+ * Each method validates the request data and interacts with the NoteService to perform the required operations.
+ */
 class NoteController {
     async createNote(req: Request, res: Response): Promise<void> {
         // Validate the request body against the NoteRequestSchema

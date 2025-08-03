@@ -1,6 +1,6 @@
 # Variables for the application container
-APP_CONTAINER_IMAGE=my-jwt-app-demo
-APP_CONTAINER_NAME=jwt-app-demo
+APP_CONTAINER_IMAGE=my-typescript-app
+APP_CONTAINER_NAME=typescript-app
 APP_DOCKER_CONTEXT=.
 APP_DOCKERFILE=./docker/app/Dockerfile
 APP_ENV_FILE=.env
@@ -8,7 +8,7 @@ APP_PORT=4000
 
 # Variables for the PostgreSQL container
 POSTGRES_CONTAINER_IMAGE=my-postgres-server
-POSTGRES_CONTAINER_NAME=jwt-postgres-server
+POSTGRES_CONTAINER_NAME=postgres-server
 POSTGRES_DOCKER_CONTEXT=./docker/postgres
 POSTGRES_DOCKERFILE=./docker/postgres/Dockerfile
 POSTGRES_PORT=5432
